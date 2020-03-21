@@ -15,7 +15,7 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-AUTH_USER_MODEL = 'users.SlamUser'
+AUTH_USER_MODEL = 'users.Slammer'
 
 
 # Quick-start development settings - unsuitable for production
@@ -23,6 +23,7 @@ AUTH_USER_MODEL = 'users.SlamUser'
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kp86ix@#q(#*x9p$eahdp__k6eha0#adb_b2+^0^=q+i5@*7$l'
+GOOGLE_API_KEY = 'AIzaSyAcQ_2q8EsiEkWcVMSBH9XVdJ0vZixM3dE'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'users',
-    'slams'
+    'slams',
+    'address'
 ]
 
 MIDDLEWARE = [
