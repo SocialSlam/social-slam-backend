@@ -1,2 +1,3 @@
 .idea/
-CorOpenMic/CorOpenMic/__pycache__/
+__pycache__/
+migrations/
