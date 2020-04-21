@@ -30,7 +30,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'graphene_django',
     'rest_framework',
     'users',
     'slams',
@@ -55,6 +55,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+GRAPHENE = {
+    'SCHEMA': 'django_root.schema.schema'
+}
 
 ROOT_URLCONF = 'CorOpenMic.urls'
 
@@ -79,13 +83,6 @@ WSGI_APPLICATION = 'CorOpenMic.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 DATABASES = {
     'default': {
