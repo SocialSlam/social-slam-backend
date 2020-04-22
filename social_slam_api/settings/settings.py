@@ -57,7 +57,10 @@ MIDDLEWARE = [
 ]
 
 GRAPHENE = {
-    'SCHEMA': 'schema.schema.schema'
+    'SCHEMA': 'schema.schema.schema',
+    'MIDDLEWARE': [
+        'graphql_jwt.middleware.JSONWebTokenMiddleware',
+    ],
 }
 
 ROOT_URLCONF = 'settings.urls'
