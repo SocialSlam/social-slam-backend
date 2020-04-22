@@ -31,10 +31,28 @@ class Query(graphene.ObjectType):
         return Skill.objects.all()
 
 
+class Register(graphene.Mutation):
+    class Arguments:
+        first_name = graphene.String(required=True)
+        last_name = graphene.String()
+        email = graphene.String(required=True)
+        password = graphene.String()
+        username = graphene.String(required=True)
+    user = graphene.Field(UserType)
+
+    def mutate(self, info, **kwargs):
+        password = kwargs.pop('password')
+        user = Slammer.objects.create(**kwargs)
+        user.set_password(password)
+        user.save()
+        return Register(user=user)
+
+
 class Mutation(graphene.ObjectType):
     token_auth = graphql_jwt.ObtainJSONWebToken.Field()
     verify_token = graphql_jwt.Verify.Field()
     refresh_token = graphql_jwt.Refresh.Field()
+    register = Register.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)
