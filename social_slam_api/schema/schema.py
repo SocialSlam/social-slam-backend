@@ -1,35 +1,12 @@
 import graphene
 from graphql_auth.schema import UserQuery, MeQuery
 from graphql_auth import mutations
-from graphene_django import DjangoObjectType
 
-from users.models import Slammer, Skill, UserSkillLevel
-
-
-class UserType(DjangoObjectType):
-    class Meta:
-        model = Slammer
+from users.schema import SlammerQuery
 
 
-class SkillType(DjangoObjectType):
-    class Meta:
-        model = Skill
-
-
-class UserSkillLevelType(DjangoObjectType):
-    class Meta:
-        model = UserSkillLevel
-
-
-class Query(UserQuery, MeQuery, graphene.ObjectType):
-    all_slammers = graphene.List(UserType)
-    all_skills = graphene.List(SkillType)
-
-    def resolve_all_slammers(self, info, **kwargs):
-        return Slammer.objects.all()
-
-    def resolve_all_skills(self, info, **kwargs):
-        return Skill.objects.all()
+class Query(SlammerQuery, UserQuery, MeQuery, graphene.ObjectType):
+    pass
 
 
 class Mutation(graphene.ObjectType):
