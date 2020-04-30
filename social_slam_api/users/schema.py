@@ -28,5 +28,3 @@ class SlammerQuery(UserQuery, MeQuery, graphene.ObjectType):
 
     def resolve_all_skills(self, info, **kwargs):
         return Skill.objects.all()
-
-    def resolve_skill
