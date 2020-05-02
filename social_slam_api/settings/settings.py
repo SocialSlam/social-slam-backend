@@ -28,7 +28,7 @@ GOOGLE_API_KEY = 'AIzaSyAcQ_2q8EsiEkWcVMSBH9XVdJ0vZixM3dE'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'django_filters',
     'users',
     'slams',
-    'address'
 ]
 
 MIDDLEWARE = [
@@ -120,7 +119,7 @@ DATABASES = {
         'NAME': 'social_slam_db',
         'USER': 'social_slam_admin',
         'PASSWORD': 'social_slamming_2020',
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

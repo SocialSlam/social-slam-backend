@@ -1,0 +1,18 @@
+  version: '3'
+
+  services:
+    db:
+      image: postgres
+      environment:
+        - POSTGRES_DB=social_slam_db
+        - POSTGRES_USER=social_slam_admin
+        - POSTGRES_PASSWORD=social_slamming_2020
+    web:
+      build: .
+      command: python manage.py runserver 0.0.0.0:8000
+      volumes:
+        - .:/code
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
