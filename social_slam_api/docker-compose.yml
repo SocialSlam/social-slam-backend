@@ -29,6 +29,7 @@
       command: >
         bash -c "python manage.py makemigrations
         && python manage.py migrate
+        && echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(\'social_slam_db\', \'admin@social_slam.com\', \'social_slam_admin\')\" | python manage.py shell
         && python manage.py runserver 0.0.0.0:8000"
 #      volumes:
 #        - .:/code
