@@ -3,14 +3,10 @@
   services:
     db:
       image: postgres
+      volumes:
+        - ./postgres-data:/var/lib/postgresql/data
       ports:
         - "5432:5432"
-      logging:
-        driver: awslogs
-        options:
-          awslogs-region: eu-central-1
-          awslogs-group: /ecs/social_slam_api
-          awslogs-stream-prefix: compose_test
       environment:
         - POSTGRES_DB=social_slam_db
         - POSTGRES_USER=social_slam_admin
@@ -20,18 +16,12 @@
       image: 385867774100.dkr.ecr.eu-central-1.amazonaws.com/social-slam-api:latest
       links:
         - db:db
-      logging:
-        driver: awslogs
-        options:
-          awslogs-region: eu-central-1
-          awslogs-group: /ecs/social_slam_api
-          awslogs-stream-prefix: compose_test
       command: >
         bash -c "python manage.py makemigrations
         && python manage.py migrate
-        && echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(\'social_slam_db\', \'admin@social_slam.com\', \'social_slam_admin\')\" | python manage.py shell
+        && echo \"from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.filter(username='social_slam_admin') or User.objects.create_superuser('social_slam_admin', 'admin@social_slam.com', 'social_slamming_2020')\" | python manage.py shell
         && python manage.py runserver 0.0.0.0:8000"
-#      volumes:
-#        - .:/code
       ports:
         - "8000:8000"
+      depends_on:
+        - db

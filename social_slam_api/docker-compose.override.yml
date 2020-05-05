@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: /ecs/social_slam_api
+        awslogs-stream-prefix: compose_test
+  web:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: /ecs/social_slam_api
+        awslogs-stream-prefix: compose_test
