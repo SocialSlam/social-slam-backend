@@ -27,10 +27,10 @@ class UserSkillLevel(models.Model):
     ]
 
     skill_level = models.SmallIntegerField(choices=skill_level_choices)
-    slammer = models.ForeignKey('Slammer', on_delete=models.CASCADE, related_name='user_skill_levels')
+    user = models.ForeignKey('Slammer', on_delete=models.CASCADE, related_name='user_skill_levels')
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name='user_skill_levels')
 
 
-class Slammer(AbstractUser):
+class User(AbstractUser):
 
     skills = models.ManyToManyField(Skill, through=UserSkillLevel)
