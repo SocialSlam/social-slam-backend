@@ -1,11 +1,11 @@
 import graphene
-from graphql_auth.schema import UserQuery, MeQuery
 from graphql_auth import mutations
 
-from users.schema import SlammerQuery
+from slams.schema import EventQuery
+from users.schema import UserQuery
 
 
-class Query(SlammerQuery, UserQuery, MeQuery, graphene.ObjectType):
+class Query(UserQuery, EventQuery, graphene.ObjectType):
     pass
 
 

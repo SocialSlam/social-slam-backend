@@ -119,7 +119,7 @@ DATABASES = {
         'NAME': 'social_slam_db',
         'USER': 'social_slam_admin',
         'PASSWORD': 'social_slamming_2020',
-        'HOST': 'db',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
