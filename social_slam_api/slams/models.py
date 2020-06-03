@@ -13,5 +13,5 @@ class Event(models.Model):
     audience = models.ManyToManyField('users.User', related_name='slams')
     artists = models.ManyToManyField('users.User', through=Performance, related_name='performances')
     datetime = models.DateTimeField()
-    name = models.TextField(max_length=128)
+    title = models.TextField(max_length=128)
     description = models.TextField(max_length=512)
