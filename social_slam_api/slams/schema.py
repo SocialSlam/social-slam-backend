@@ -11,6 +11,7 @@ class EventType(DjangoObjectType):
 
 class EventQuery(graphene.ObjectType):
     user_events = graphene.List(EventType)
+    all_events = graphene.List(EventType)
 
     def resolve_user_events(self, info, **kwargs):
         if 'id' not in kwargs:
@@ -19,4 +20,6 @@ class EventQuery(graphene.ObjectType):
                                 content_type='text/html')
         return Event.objects.filter(artists__id=kwargs['id']) | Event.objects.filter(audience__id=kwargs['id'])
 
+    def resolve_all_events(self, info, **kwargs):
+        return Event.objects.all()
 
