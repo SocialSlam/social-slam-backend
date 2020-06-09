@@ -22,7 +22,7 @@ class UserSkillLevelType(DjangoObjectType):
 
 
 class UserQuery(UserQuery, MeQuery, graphene.ObjectType):
-    all_slammers = graphene.List(UserType)
+    all_users = graphene.List(UserType)
     all_skills = graphene.List(SkillType)
 
     def resolve_all_users(self, info, **kwargs):

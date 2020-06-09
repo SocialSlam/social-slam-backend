@@ -1,7 +1,7 @@
 import graphene
 from graphql_auth import mutations
 
-from slams.schema import EventQuery
+from slams.schema import EventQuery, CreateEventMutation
 from users.schema import UserQuery
 
 
@@ -29,6 +29,7 @@ class Mutation(graphene.ObjectType):
     verify_token = mutations.VerifyToken.Field()
     refresh_token = mutations.RefreshToken.Field()
     revoke_token = mutations.RevokeToken.Field()
+    create_event = CreateEventMutation.Field()
 
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

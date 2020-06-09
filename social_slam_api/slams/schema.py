@@ -1,25 +1,38 @@
 import graphene
-from django.http import HttpResponse
 from graphene_django import DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
+
 from slams.models import Event
+from users.schema import UserType
 
 
 class EventType(DjangoObjectType):
     class Meta:
         model = Event
+        filter_fields = ['artists__id', 'audience__id']
+        interfaces = [graphene.relay.Node]
 
 
 class EventQuery(graphene.ObjectType):
     user_events = graphene.List(EventType)
-    all_events = graphene.List(EventType)
-
-    def resolve_user_events(self, info, **kwargs):
-        if 'id' not in kwargs:
-            return HttpResponse(status=400,
-                                content='Please provide a valid User ID',
-                                content_type='text/html')
-        return Event.objects.filter(artists__id=kwargs['id']) | Event.objects.filter(audience__id=kwargs['id'])
+    all_events = DjangoFilterConnectionField(EventType)
 
     def resolve_all_events(self, info, **kwargs):
         return Event.objects.all()
 
+
+class CreateEventMutation(graphene.Mutation):
+    class Arguments:
+        artists = graphene.List(graphene.ID)
+        audience = graphene.List(graphene.ID)
+        datetime = graphene.DateTime()
+        title = graphene.String()
+
+    event = graphene.Field(EventType)
+
+    def mutate(self, info, **kwargs):
+        event = Event.objects.create(datetime=kwargs.get('datetime', None),
+                                     title=kwargs.get('title', None))
+        event.artists.set(kwargs.get('artists', None))
+        event. audience.set(kwargs.get('audience', None))
+        return CreateEventMutation(event=event)
