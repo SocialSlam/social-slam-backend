@@ -3,7 +3,6 @@ from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
 from slams.models import Event
-from users.schema import UserType
 
 
 class EventType(DjangoObjectType):
@@ -14,7 +13,6 @@ class EventType(DjangoObjectType):
 
 
 class EventQuery(graphene.ObjectType):
-    user_events = graphene.List(EventType)
     all_events = DjangoFilterConnectionField(EventType)
 
     def resolve_all_events(self, info, **kwargs):
@@ -34,5 +32,5 @@ class CreateEventMutation(graphene.Mutation):
         event = Event.objects.create(datetime=kwargs.get('datetime', None),
                                      title=kwargs.get('title', None))
         event.artists.set(kwargs.get('artists', None))
-        event. audience.set(kwargs.get('audience', None))
+        event.audience.set(kwargs.get('audience', None))
         return CreateEventMutation(event=event)
