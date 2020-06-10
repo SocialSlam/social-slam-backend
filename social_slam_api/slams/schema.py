@@ -1,4 +1,5 @@
 import graphene
+from django_filters import FilterSet
 from graphene_django import DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
@@ -8,14 +9,14 @@ from slams.models import Event
 class EventType(DjangoObjectType):
     class Meta:
         model = Event
-        filter_fields = ['artists__id', 'audience__id']
-        interfaces = [graphene.relay.Node]
+        filter_fields = ['artists__id', 'audience__id', 'id']
+        interfaces = (graphene.relay.Node, )
 
 
 class EventQuery(graphene.ObjectType):
-    all_events = DjangoFilterConnectionField(EventType)
+    events = DjangoFilterConnectionField(EventType)
 
-    def resolve_all_events(self, info, **kwargs):
+    def resolve_events(self, info, **kwargs):
         return Event.objects.all()
 
 
