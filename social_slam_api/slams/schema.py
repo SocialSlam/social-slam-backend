@@ -9,7 +9,7 @@ from slams.models import Event
 class EventType(DjangoObjectType):
     class Meta:
         model = Event
-        filter_fields = ['artists__id', 'audience__id', 'id']
+        filter_fields = ['artists__id', 'audience__id', 'id', 'datetime']
         interfaces = (graphene.relay.Node, )
 
 
