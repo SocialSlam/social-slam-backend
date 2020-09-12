@@ -37,12 +37,12 @@ jobs:
           --cache-from ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY }}:latest \
           --cache-from ${{ steps.login-ecr.outputs.registry }}/${{ env.CONTAINER_IMAGE }} \
           --tag $CONTAINER_IMAGE \
-          --tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER_IMAGE \
+          --tag ${{ steps.login-ecr.outputs.registry }}/$CONTAINER_IMAGE \
           ./social_slam_api
 
       - name: Push docker image
         run: |
-          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER_IMAGE
+          docker push ${{ steps.login-ecr.outputs.registry }}/$CONTAINER_IMAGE
 
   deploy:
     needs: build
@@ -61,9 +61,6 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Re-tag image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
         run: |
-          MANIFEST=$(aws ecr batch-get-image --repository-name $ECR_REPOSITORY --image-ids imageTag=${{env.CONTAINER_TAG}} --query 'images[].imageManifest' --output text)
-          aws ecr put-image --repository-name $ECR_REPOSITORY --image-tag latest --image-manifest "$MANIFEST"
+          MANIFEST=$(aws ecr batch-get-image --repository-name ${{ steps.login-ecr.outputs.registry }} --image-ids imageTag=${{env.CONTAINER_TAG}} --query 'images[].imageManifest' --output text)
+          aws ecr put-image --repository-name ${{ secrets.AWS_ECR_REPOSITORY }} --image-tag latest --image-manifest "$MANIFEST"
