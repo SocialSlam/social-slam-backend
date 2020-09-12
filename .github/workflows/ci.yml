@@ -37,7 +37,7 @@ jobs:
           --cache-from ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY }}:latest \
           --cache-from ${{ steps.login-ecr.outputs.registry }}/${{ env.CONTAINER_IMAGE }} \
           --tag $CONTAINER_IMAGE \
-          --tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER_IMAGE \
+          --tag ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.$AWS_REGION.amazonaws.com/$CONTAINER_IMAGE \
           ./social_slam_api
 
       - name: Push docker image
